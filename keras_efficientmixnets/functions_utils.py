@@ -133,60 +133,6 @@ def get_batchnorm_name(name='bn'):
         raise ValueError('Please provide a string identifier, got {} instead'.format(name))
 
 
-
-# Function to read a .pgm pileup image and store it as a (299, 299, 5) numpy array
-def read_pgm_ref(filename):
-    
-    """Return germline and somatic images (with 5 ref rows in each channel) data 
-       from a raw PGM file as two numpy arrays of shape (152, 299, 5)
-    
-    Format specification: http://netpbm.sourceforge.net/doc/pgm.html
-
-    """
-    with open(filename, 'rb') as f:
-        X = np.frombuffer(f.read(), dtype='u1',
-                                count=447005,
-                                offset=63).reshape(-1, 299)
-        ### REM : Pourquoi ne pas reshape sur les 5 canaux là directement aussi
-        ###   Pour que ca ait déjà plus la meme forme que celle de tensor ?
-        
-
-        ### REM: A partir d'ici, désindente le bloc pour le sortir du "with"
-        ###   Maintenant que tu as X, tu n'as plus besoin du fichier, donc rends
-        ###   le fichier au système dès maintenant
-        tensor = np.empty((299, 299, 5), dtype='float32')
-
-        tensor[:, :, 0] = X[:299, ]     # bases
-        tensor[:, :, 1] = X[299:598, ]  # insertions
-        tensor[:, :, 2] = X[598:897, ]  # deletions
-        tensor[:, :, 3] = X[897:1196, ] # mismatchs
-        tensor[:, :, 4] = X[1196:, ]    # base quality
-
-        return tensor
-    
-    
-def load_data_set_from_pileups(list_indx):
-    '''
-     load in memory the dataset from a precomputed list of index 
-     
-     '''
-    list_indx = list(list_indx.items())
-    N = len(list_indx)
-    print("Size of dataset : ", N)
-    
-    ### REM: Très bien, on alloue avant de remplir, 
-    ###   ce qui évite de faire du np.concatenate à tout va
-    X = np.zeros((N, 299, 299, 5), dtype='float32')
-    y = np.zeros((N, 2), dtype='float32')
-    
-    for i, item in enumerate(list_indx):
-        X[i] = read_pgm_ref(item[0])
-        y[i] = item[1]
-        if i%1000 == 0 and i>0:
-            print("Loaded {} images in memory, {} left".format(i, N-i))
-    return X, y
-
-
 class DataGenerator(Sequence):
     ### REM: les docstrings sont en général encodré de 3 guillemets.
     ###   Ca marche sans, mais c'est une convention, et les conventions

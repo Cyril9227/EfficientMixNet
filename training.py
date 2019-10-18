@@ -31,10 +31,6 @@ Created on Wed Jul 24 15:48:03 2019
 @author: cec1
 """
 
-
-
-
-
 def create_network(input_shape, keras_model, mixed=True, typeBN=None):
     '''Conv Network architecture, based on a keras model such as EfficientNets
     '''
