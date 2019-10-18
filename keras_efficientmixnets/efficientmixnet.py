@@ -110,7 +110,7 @@ class EfficientNetBuilder:
                  batch_norm_epsilon=1e-3,
                  **kwargs):
 
-                 logs_path = os.path.join("outputs/logs_" + str(datetime.datetime.now()).split(".")[0][:-3].replace(":", "h"))
+                 logs_path = os.path.join("../outputs/logs_" + str(datetime.datetime.now()).split(".")[0][:-3].replace(":", "h"))
                  logging = setup_logger("model_logger", "model_instantiation.log", logs_path) 
                  
                  
