@@ -235,7 +235,7 @@ class EfficientNetBuilder:
 
                  if include_top:
                      if dropout_rate > 0:
-                         x = layers.Dropout(dropout_rate)(x)
+                         x = layers.Dropout(rate=dropout_rate)(x)
                      x = layers.Dense(classes, kernel_initializer=EfficientNetDenseInitializer())(x)
                      x = activation('softmax')(x)
 
