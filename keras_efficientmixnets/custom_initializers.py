@@ -62,7 +62,7 @@ class EfficientNetDenseInitializer(initializers.Initializer):
         dtype = dtype or K.floatx()
 
         init_range = 1.0 / np.sqrt(shape[1])
-        return tf.random_uniform(shape, -init_range, init_range, dtype=dtype)
+        return tf.random.uniform(shape, -init_range, init_range, dtype=dtype)
 
 
 
