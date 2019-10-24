@@ -1,7 +1,8 @@
-import keras.backend as K
-from keras.layers import Layer
-from keras.utils.generic_utils import get_custom_objects
 import tensorflow as tf
+import tensorflow.keras.backend as K
+from tensorflow.keras.layers import Layer
+from tensorflow.keras.utils import get_custom_objects
+
 
 __all__ = ['Swish', 'Mish']
 

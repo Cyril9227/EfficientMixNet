@@ -6,8 +6,8 @@ from itertools import islice
 from math import ceil
 
 import numpy as np
-from keras.layers import Activation, BatchNormalization
-from keras.utils import Sequence
+from tensorflow.keras.layers import Activation, BatchNormalization
+from tensorflow.keras.utils import Sequence
 from keras_efficientmixnets.custom_activations import Mish, Swish
 from keras_efficientmixnets.custom_batchnorm import (AttentiveNormalization,
                                                      BatchAttNorm)
@@ -16,6 +16,38 @@ from keras_efficientmixnets.custom_batchnorm import (AttentiveNormalization,
 # currently supported type of activations and batchnorm
 ACTIVATIONS = ["relu", "softmax", "sigmoid", "softplus", "mish", "swish"]
 BATCH_NORM  = ["bn", "iebn", "an"]
+
+
+
+
+
+# obtained from https://github.com/keras-team/keras/blob/master/keras/utils/conv_utils.py
+def conv_output_length(input_length, filter_size,
+                       padding, stride, dilation=1):
+    """Determines output length of a convolution given input length.
+    # Arguments
+        input_length: integer.
+        filter_size: integer.
+        padding: one of `"same"`, `"valid"`, `"full"`.
+        stride: integer.
+        dilation: dilation rate, integer.
+    # Returns
+        The output length (integer).
+    """
+    if input_length is None:
+        return None
+    assert padding in {'same', 'valid', 'full', 'causal'}
+    dilated_filter_size = (filter_size - 1) * dilation + 1
+    if padding == 'same':
+        output_length = input_length
+    elif padding == 'valid':
+        output_length = input_length - dilated_filter_size + 1
+    elif padding == 'causal':
+        output_length = input_length
+    elif padding == 'full':
+        output_length = input_length + dilated_filter_size - 1
+    return (output_length + stride - 1) // stride
+
 
 
 # Obtained from https://github.com/tensorflow/tpu/blob/master/models/official/efficientnet/efficientnet_model.py

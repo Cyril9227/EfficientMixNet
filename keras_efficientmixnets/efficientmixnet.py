@@ -23,11 +23,10 @@ import os
 from math import ceil
 from typing import List
 
-import tensorflow as tf
-from keras import backend as K
-from keras import layers
-from keras.models import Model
-from keras.utils import get_file, get_source_inputs
+from tensorflow.keras import backend as K
+from tensorflow.keras import layers
+from tensorflow.keras.models import Model
+from tensorflow.keras.utils import get_file, get_source_inputs
 from keras_applications.imagenet_utils import _obtain_input_shape
 
 from keras_efficientmixnets.functions_utils import BatchNorm, activation, round_filters, round_repeats

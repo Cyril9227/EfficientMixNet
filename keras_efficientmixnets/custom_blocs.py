@@ -1,22 +1,23 @@
 import numpy as np
 import tensorflow as tf
-from keras import backend as K
-from keras import layers
-from keras.models import Model
-from keras.utils import conv_utils
-from keras.utils.generic_utils import get_custom_objects
+from tensorflow.keras import layers
+from tensorflow.keras import backend as K
+from tensorflow.keras.models import Model
+
+
+
+from tensorflow.keras.utils import get_custom_objects
 
 from keras_efficientmixnets.custom_activations import Swish
 from keras_efficientmixnets.custom_initializers import \
     EfficientNetConvInitializer
-from keras_efficientmixnets.functions_utils import BatchNorm, activation
+from keras_efficientmixnets.functions_utils import BatchNorm, activation, conv_output_length
 
 __all__ = ['DropConnect',
            'GroupDepthwiseConvolution',
            'MDConv',
            'SEBlock',
-           'MBConvBlock'
-           ]
+           'MBConvBlock']
 
 
 
@@ -166,7 +167,7 @@ class DropConnect(layers.Layer):
         def drop_connect():
             keep_prob = 1.0 - self.drop_connect_rate
             # Compute drop_connect tensor
-            batch_size = tf.shape(inputs)[0]
+            batch_size = K.shape(inputs)[0]
             random_tensor = keep_prob
             random_tensor += tf.random_uniform([batch_size, 1, 1, 1], dtype=inputs.dtype)
             binary_tensor = tf.floor(random_tensor)
@@ -247,7 +248,7 @@ class GroupDepthwiseConvolution(Model):
       space = input_shape[1:-1]
       new_space = []
       for i in range(len(space)):
-          new_dim = conv_utils.conv_output_length(
+          new_dim = conv_output_length(
               space[i],
               filter_size=1,
               padding=self.padding,

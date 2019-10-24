@@ -1,8 +1,7 @@
-import keras.backend as K
 import numpy as np
-import tensorflow as tf
-from keras import initializers
-from keras.utils.generic_utils import get_custom_objects
+import tensorflow.keras.backend as K
+from tensorflow.keras import initializers
+from tensorflow.keras.utils import get_custom_objects
 
 __all__ = ['EfficientNetConvInitializer',
            'EfficientNetDenseInitializer',
@@ -35,7 +34,7 @@ class EfficientNetConvInitializer(initializers.Initializer):
 
         kernel_height, kernel_width, _, out_filters = shape
         fan_out = int(kernel_height * kernel_width * out_filters)
-        return tf.random_normal(
+        return K.random_normal(
             shape, mean=0.0, stddev=np.sqrt(2.0 / fan_out), dtype=dtype)
 
 
@@ -62,7 +61,7 @@ class EfficientNetDenseInitializer(initializers.Initializer):
         dtype = dtype or K.floatx()
 
         init_range = 1.0 / np.sqrt(shape[1])
-        return tf.random.uniform(shape, -init_range, init_range, dtype=dtype)
+        return K.random_uniform(shape, -init_range, init_range, dtype=dtype)
 
 
 

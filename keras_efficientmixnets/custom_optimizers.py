@@ -1,9 +1,9 @@
 #! -*- coding: utf-8 -*-
 
-from keras import backend as K  ### REM: idem
-from keras.optimizers import (SGD, Adadelta, Adagrad, Adam, Adamax, Nadam,
+from tensorflow.keras import backend as K  ### REM: idem
+from tensorflow.keras.optimizers import (SGD, Adadelta, Adagrad, Adam, Adamax, Nadam,
                               Optimizer, RMSprop)
-from keras.utils.generic_utils import (deserialize_keras_object,
+from tensorflow.keras.utils import (deserialize_keras_object,
                                        serialize_keras_object)
 
 
